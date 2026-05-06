@@ -1,0 +1,17 @@
+{
+  "repo": "atlas-ops-rename-map",
+  "thresholds": {
+    "signal": 2,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 2,
+    "ship": 186,
+    "watch": 124
+  },
+  "terms": [
+    "dry-run spread",
+    "rename risk",
+    "operator cost",
+    "idempotence"
+  ]
+}

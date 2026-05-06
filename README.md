@@ -1,69 +1,40 @@
 # atlas-ops-rename-map
 
-`atlas-ops-rename-map` treats automation as a local verification problem. The JavaScript implementation is intentionally narrow, but the fixtures and notes make the behavior explicit.
+`atlas-ops-rename-map` keeps a focused JavaScript implementation around automation. The project goal is to develop a JavaScript command-oriented project for rename scenarios with framed sample traffic, bounds and ordering tests, and fixture-scale datasets.
 
-## Atlas Ops Rename Map Checkpoints
+## Problem It Tries To Make Smaller
 
-Treat the compact fixture as the contract and the extended examples as a scratchpad. The code should stay boring enough that a change in behavior is obvious from the test output.
+This is intentionally local and self-contained so it can be inspected without credentials, services, or seeded history.
 
-## What This Is For
+## Atlas Ops Rename Map Review Notes
 
-The goal is to capture the core behavior in code and make the surrounding assumptions obvious. A reader should be able to run the verifier, open the fixtures, and understand why each decision was made.
+For a quick review, compare `idempotence` with `dry-run spread` before reading the middle cases.
 
-## Case Study
+## Working Pieces
 
-`degraded` is the first example I would inspect because it lands on the `review` path with a score of -74. The broader file also keeps `degraded` at -74 and `surge` at 201, which gives the model a useful low-to-high spread.
+- `fixtures/domain_review.csv` adds cases for dry-run spread and rename risk.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/atlas-ops-rename-walkthrough.md` walks through the case spread.
+- The JavaScript code includes a review path for `idempotence` and `dry-run spread`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Architecture Notes
+## Design Notes
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The JavaScript version uses native modules and a small Node test path.
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Useful Pieces
+The JavaScript implementation avoids hidden state so fixture changes are easy to reason about.
 
-- Models dry-run output with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep file plans changes visible in code review.
-- Includes extended examples for safety rails, including `surge` and `degraded`.
-- Documents idempotent checks tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-
-## Local Workflow
+## Example Run
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Tests
 
-## Quality Gate
+The check exercises the source code and the review fixture. `recovery` is the high score at 255; `baseline` is the low score at 186.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Known Limits
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Project Layout
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-- `package.json`: Node package scripts
-
-## Expansion Ideas
-
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add one more automation fixture that focuses on a malformed or borderline input.
-
-## Scope
-
-The fixture set is deliberately small. That keeps the review surface clear, but it also means the model should not be treated as a complete domain simulator.
-
-## Tooling
-
-The only required setup is the local JavaScript toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.

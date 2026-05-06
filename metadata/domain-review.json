@@ -1,0 +1,73 @@
+{
+  "repo": "atlas-ops-rename-map",
+  "language": "JavaScript",
+  "category": "Automation",
+  "goal": "Develop a JavaScript command-oriented project for rename scenarios with framed sample traffic, bounds and ordering tests, and fixture-scale datasets.",
+  "review_model": {
+    "terms": [
+      "dry-run spread",
+      "rename risk",
+      "operator cost",
+      "idempotence"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "dry-run spread",
+      "signal": 55,
+      "slack": 51,
+      "drag": 17,
+      "confidence": 76,
+      "score": 186,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "rename risk",
+      "signal": 80,
+      "slack": 30,
+      "drag": 20,
+      "confidence": 65,
+      "score": 195,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "operator cost",
+      "signal": 86,
+      "slack": 51,
+      "drag": 25,
+      "confidence": 87,
+      "score": 235,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "idempotence",
+      "signal": 79,
+      "slack": 46,
+      "drag": 14,
+      "confidence": 93,
+      "score": 255,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "dry-run spread",
+      "signal": 86,
+      "slack": 54,
+      "drag": 15,
+      "confidence": 57,
+      "score": 238,
+      "lane": "ship"
+    }
+  ]
+}
